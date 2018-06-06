@@ -1,0 +1,75 @@
+# Control---Motor-DC---Puente-H
+//Se describe en este código fuente de Arduino el control de 3 puentes H.
+//Hecho por Matto
+byte ent;                               //declaración de las variables iniciales
+int i;
+int ms = 50;
+
+void setup() {
+  Serial.begin(9600);                   //inicialización de la comunicación serial
+  for(i = 2; i <= 5; i++){
+    pinMode(i, OUTPUT);
+  }
+  pinMode(8, OUTPUT);
+  pinMode(9, OUTPUT);
+}
+
+void loop() {
+  while (Serial.available() > 0) {
+ 
+    ent = Serial.read();
+    
+    switch(ent){                        //Cada caso indica hacia a donde debe girar
+      case 1:                           //cada uno de los motores
+        digitalWrite(2, HIGH);
+        digitalWrite(3, LOW);
+        delay(ms);
+        digitalWrite(2, HIGH);
+        digitalWrite(3, HIGH);
+        Serial.println("izquierda");    //Se regresa un mensaje al código de eclipse
+        break;                          //indicando el sentido del giro
+      case 2:
+        digitalWrite(2, LOW);
+        digitalWrite(3, HIGH);
+        delay(ms);
+        digitalWrite(2, HIGH);
+        digitalWrite(3, HIGH);
+        Serial.println("derecha");             
+        break;
+      case 3:
+        digitalWrite(4, HIGH);
+        digitalWrite(5, LOW);
+        delay(ms);
+        digitalWrite(4, HIGH);
+        digitalWrite(5, HIGH);
+        Serial.println("Arriba");              
+        break;
+      case 4:
+        digitalWrite(4, LOW);
+        digitalWrite(5, HIGH);
+        delay(ms);
+        digitalWrite(4, HIGH);
+        digitalWrite(5, HIGH);
+        Serial.println("Abajo");       
+        break;
+      case 8:
+        digitalWrite(8, HIGH);
+        digitalWrite(9, LOW);
+        delay(100);
+        digitalWrite(8, HIGH);
+        digitalWrite(9, HIGH);
+        Serial.println("Atrás");
+      case 9:
+        digitalWrite(8, LOW);
+        digitalWrite(9, HIGH);
+        delay(100);
+        digitalWrite(8, HIGH);
+        digitalWrite(9, HIGH);
+        Serial.println("Adelante");
+      default:
+        Serial.println("error");
+        break;
+    }
+  }
+  
+}
